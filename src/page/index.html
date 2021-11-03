@@ -2,11 +2,17 @@
 <html>
   <header>
     <title>手写ts+promise</title>
+  <script type="text/javascript" src="../js/promise.js"></script>
   </header>
   <body>
     <div>
       <h3>手写ts+promise</h3>
     </div>
+    <script>
+      let demo = new myPromise((resolve, reject) => {
+        resolve("11")
+      })
+      demo.then(data => console.log(data))
+    </script>
   </body>
-  <script type="text/javascript" src="../js/index.js"></script>
 </html>
