@@ -162,3 +162,5 @@ function newPromise(promise2, x, resolve, reject) {
     resolve(x)
   }
 }
+console.log(111)
+export {MyPromise}
