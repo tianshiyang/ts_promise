@@ -2,11 +2,27 @@
 <html>
   <header>
     <title>手写ts+promise</title>
-  </header>
+    <script type="text/javascript" src="../js/index.js"></script>
+  <!-- <script type="text/javascript" src="../js/MyPromise.js"></script>   -->
+  <!-- <script type="text/javascript" src="../js/promise.js"></script> -->
+</header>
   <body>
     <div>
       <h3>手写ts+promise</h3>
     </div>
+    <script>
+      // let p = new MyPromise((resolve, reject) => {
+      //   setTimeout(()=> {
+      //     resolve({name: "张三", age: 12})
+      //   }, 0)
+      // })
+      // p.then().then(item => console.log(item))
+      let p = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("TS promise")
+        })
+      })
+      p.then().then(item => console.log(item))
+    </script>
   </body>
-  <script type="text/javascript" src="../js/index.js"></script>
 </html>
