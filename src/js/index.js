@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MyPromise = void 0;
 var Status;
 (function (Status) {
     Status["PENDING"] = "pending";
@@ -61,14 +59,22 @@ var MyPromise = /** @class */ (function () {
             if (resolve === void 0) { resolve = _this.resolve; }
             if (reject === void 0) { reject = _this.reject; }
             if (_this.status === Status.FULFILLED) {
-                resolve(successCallBack(_this.value));
+                var x = successCallBack(_this.value);
+                resolvePromise(p2, x, resolve, reject);
             }
             else if (_this.status === Status.REJECTED) {
-                resolve(failCallBack(_this.reason));
+                var x = failCallBack(_this.reason);
+                resolvePromise(p2, x, resolve, reject);
             }
             else if (_this.status === Status.PENDING) {
-                _this.successCallBackArr.push(function () { return resolve(successCallBack(_this.value)); });
-                _this.failCallBackArr.push(function () { return resolve(failCallBack(_this.reason)); });
+                _this.successCallBackArr.push(function () {
+                    var x = successCallBack(_this.value);
+                    resolvePromise(p2, x, resolve, reject);
+                });
+                _this.failCallBackArr.push(function () {
+                    var x = failCallBack(_this.reason);
+                    resolvePromise(p2, x, resolve, reject);
+                });
             }
         });
         return p2;
@@ -78,4 +84,16 @@ var MyPromise = /** @class */ (function () {
     };
     return MyPromise;
 }());
-exports.MyPromise = MyPromise;
+function resolvePromise(p2, x, resolve, reject) {
+    if (p2 === x) {
+        console.log("循环返回相同的promise对象");
+        return reject(new TypeError('循环返回相同的peomise对象'));
+    }
+    if (x instanceof MyPromise) {
+        x.then(resolve, reject);
+    }
+    else {
+        resolve(x);
+    }
+}
+// export { MyPromise }

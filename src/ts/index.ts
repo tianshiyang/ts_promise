@@ -52,12 +52,20 @@ class MyPromise {
   then(successCallBack: (value: any) => void = value => value, failCallBack: (reason: any) => void = reason => reason): MyPromise {
     let p2 = new MyPromise((resolve: (value: any) => void = this.resolve, reject: (reason: any) => void = this.reject) => {
       if (this.status === Status.FULFILLED) {
-        resolve(successCallBack(this.value))
+        let x = successCallBack(this.value)
+        resolvePromise(p2, x, resolve, reject)
       } else if (this.status === Status.REJECTED) {
-        resolve(failCallBack(this.reason))
+        let x = failCallBack(this.reason)
+        resolvePromise(p2, x, resolve, reject)
       } else if (this.status === Status.PENDING) {
-        this.successCallBackArr.push(() => resolve(successCallBack(this.value)))
-        this.failCallBackArr.push(() => resolve(failCallBack(this.reason)))
+        this.successCallBackArr.push(() => {
+          let x = successCallBack(this.value)
+          resolvePromise(p2, x, resolve, reject)
+        })
+        this.failCallBackArr.push(() => {
+          let x = failCallBack(this.reason)
+          resolvePromise(p2, x, resolve, reject)
+        })
       }
     })
     return p2
@@ -68,4 +76,16 @@ class MyPromise {
   }
 }
 
-export { MyPromise }
+function resolvePromise(p2: MyPromise, x: any, resolve: (value: any) => void, reject: (value: any) => void): void {
+  if (p2 === x) {
+    console.log("循环返回相同的promise对象")
+    return reject(new TypeError('循环返回相同的peomise对象'))
+  }
+  if (x instanceof MyPromise) {
+    x.then(resolve, reject)
+  } else {
+    resolve(x)
+  }
+}
+
+// export { MyPromise }
