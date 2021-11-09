@@ -12,7 +12,7 @@ class MyPromise {
   successCallBackArr: Array<() => void> = []
   failCallBackArr: Array<() => void> = []
   // executor接受两个参数： resolve， reject，返回值void
-  constructor(executor: (resolve?: () => void, reject?: () => void) => void) {
+  constructor(executor: (resolve?: (value?: any) => void, reject?: () => void) => void) {
     this.status = Status.PENDING
     try {
       executor(this.resolve, this.reject)
@@ -20,7 +20,7 @@ class MyPromise {
       this.reject(e)
     }
   }
-  
+
   resolve = (value?: any): void => {
     if (this.status !== Status.PENDING) return
     this.status = Status.FULFILLED
@@ -37,14 +37,14 @@ class MyPromise {
   }
 
   reject = (reason?: any): void => {
-    if (this.status !== Status.PENDING) return 
+    if (this.status !== Status.PENDING) return
     this.status = Status.REJECTED
     this.reason = reason
     while (this.failCallBackArr.length) {
       let failCallBack = this.failCallBackArr.shift()
       if (failCallBack) {
         failCallBack()
-      } 
+      }
     }
   }
 
@@ -67,3 +67,5 @@ class MyPromise {
     return this.then(undefined, failCallBack)
   }
 }
+
+export { MyPromise }

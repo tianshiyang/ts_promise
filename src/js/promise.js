@@ -1,7 +1,7 @@
 const PENDING = 'pending' // 等待
 const FULFILLED = 'fulfilled'  // 成功
 const REJECTED = 'rejected' // 失败 
-class MyPromise{
+class MyPromise {
   constructor(executor) {
     // 构造器函数接受两个参数：resolve、reject这两个方法
     try {
@@ -12,11 +12,11 @@ class MyPromise{
   }
   status = PENDING
   value = undefined
-  reason = undefined  
+  reason = undefined
   successCallBack = []  // then方法多次调用时且执行器里面是异步时需将then方法里面的回调函数依此存储在该数组中
   failCallBack = []   // 同上
   resolve = (val) => {
-    if (this.status !== PENDING) return 
+    if (this.status !== PENDING) return
     this.status = FULFILLED
     // 将成功调用传递的值传给this.value保存起来方便后续使用
     this.value = val
@@ -162,5 +162,4 @@ function newPromise(promise2, x, resolve, reject) {
     resolve(x)
   }
 }
-console.log(111)
-export {MyPromise}
+export { MyPromise }

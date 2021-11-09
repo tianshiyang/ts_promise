@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MyPromise = void 0;
 var Status;
 (function (Status) {
     Status["PENDING"] = "pending";
@@ -76,3 +78,4 @@ var MyPromise = /** @class */ (function () {
     };
     return MyPromise;
 }());
+exports.MyPromise = MyPromise;
